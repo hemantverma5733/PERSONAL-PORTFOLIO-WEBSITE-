@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hemant Verma | Personal Website</title>
+    <link rel="icon" type="image/jpeg" href="myself.jpeg">
+    <!-- Modern Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0f172a;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+        }
+        #splash-screen video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .splash-content {
+            position: absolute;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        .splash-photo {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            padding: 5px;
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6, #ec4899);
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.6);
+            animation: photoEntrance 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards, photoFloat 3s ease-in-out infinite 1.2s;
+        }
+        .splash-title {
+            font-size: 2.8rem;
+            font-weight: 800;
+            text-align: center;
+            background: linear-gradient(to right, #60a5fa, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0;
+            animation: titleFadeIn 1s ease-out 0.8s forwards;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .splash-subtitle {
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 400;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            -webkit-text-fill-color: #cbd5e1;
+            margin-top: 0.5rem;
+        }
+        @keyframes photoEntrance {
+            0% { transform: scale(0) rotate(-90deg); opacity: 0; }
+            100% { transform: scale(1) rotate(0deg); opacity: 1; }
+        }
+        @keyframes photoFloat {
+            0% { transform: translateY(0px) scale(1); box-shadow: 0 0 30px rgba(139, 92, 246, 0.6); }
+            50% { transform: translateY(-15px) scale(1.05); box-shadow: 0 20px 60px rgba(59, 130, 246, 0.8), 0 0 0 15px rgba(236, 72, 153, 0.2); }
+            100% { transform: translateY(0px) scale(1); box-shadow: 0 0 30px rgba(139, 92, 246, 0.6); }
+        }
+        @keyframes titleFadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        body.no-scroll {
+            overflow: hidden;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-30px); }
+            100% { transform: translateY(0px); }
+        }
+        @keyframes pulseGlow {
+            0% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+            100% { opacity: 0.6; transform: scale(1); }
+        }
+        .cursor { animation: blink 1s infinite; }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        .social-btn {
+            display: flex; align-items: center; gap: 0.6rem; padding: 0.8rem 1.5rem; 
+            border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 1rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+        }
+        .social-btn:hover { transform: translateY(-5px) scale(1.05); }
+        .social-btn.github { color: #f8fafc; }
+        .social-btn.github:hover { background: rgba(255,255,255,0.1); box-shadow: 0 10px 20px rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); }
+        .social-btn.linkedin { color: #60a5fa; }
+        .social-btn.linkedin:hover { background: rgba(59,130,246,0.15); box-shadow: 0 10px 20px rgba(59,130,246,0.2); border-color: rgba(59,130,246,0.5); }
+        .social-btn.instagram { color: #f472b6; }
+        .social-btn.instagram:hover { background: rgba(236,72,153,0.15); box-shadow: 0 10px 20px rgba(236,72,153,0.2); border-color: rgba(236,72,153,0.5); }
+        .social-btn.unstop { color: #fb923c; }
+        .social-btn.unstop:hover { background: rgba(249,115,22,0.15); box-shadow: 0 10px 20px rgba(249,115,22,0.2); border-color: rgba(249,115,22,0.5); }
+
+        .marksheet-card {
+            background: rgba(255,255,255,0.02);
+            padding: 2rem 3rem; border-radius: 20px; text-align: center; 
+            border: 1px solid rgba(255,255,255,0.05); 
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative; overflow: hidden;
+            width: 250px;
+        }
+        .marksheet-card::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            transform: skewX(-20deg);
+            transition: left 0.7s ease;
+        }
+        .marksheet-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.2);
+            border-color: rgba(59, 130, 246, 0.4);
+            background: rgba(59, 130, 246, 0.05);
+        }
+        .marksheet-card:hover::before { left: 200%; }
+
+        .about-content {
+            font-size: 1.15rem; line-height: 1.8; color: var(--text-secondary);
+            text-align: center; max-width: 800px; margin: 0 auto;
+        }
+        
+        .marksheet-btn {
+            color: #93c5fd; font-size: 0.9rem; margin-top: 1.5rem; 
+            background: rgba(59, 130, 246, 0.1); padding: 0.6rem 1.2rem; 
+            border-radius: 50px; display: inline-block; font-weight: 600;
+            transition: all 0.3s;
+        }
+        .marksheet-card:hover .marksheet-btn {
+            background: var(--accent-primary); color: white;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+        }
+    </style>
+</head>
+<body class="no-scroll">
+
+<!-- Splash Screen overlay -->
+<div id="splash-screen">
+    <video id="splash-video" src="page.mp4#t=1" autoplay muted playsinline></video>
+    <div class="splash-content">
+        <img src="myself.jpeg" alt="Hemant Verma" class="splash-photo">
+        <h1 class="splash-title">Hemant Verma<span class="splash-subtitle">Personal Portfolio</span></h1>
+    </div>
+</div>
+
+<nav>
+    <a href="index.html" class="active">About</a>
+    <a href="skills.html">Skills</a>
+    <a href="projects.html">Projects</a>
+    <a href="certifications.html">Certifications</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="contact.html">Contact</a>
+</nav>
+
+<header style="position: relative; overflow: hidden; padding: 12rem 2rem 8rem;">
+    <!-- Decorative Glowing Background Orbs -->
+    <div style="position: absolute; top: 10%; left: 20%; width: 350px; height: 350px; background: rgba(59, 130, 246, 0.3); border-radius: 50%; filter: blur(100px); animation: float 8s ease-in-out infinite;"></div>
+    <div style="position: absolute; bottom: 10%; right: 20%; width: 300px; height: 300px; background: rgba(236, 72, 153, 0.3); border-radius: 50%; filter: blur(100px); animation: float 6s ease-in-out infinite reverse;"></div>
+    <div style="position: absolute; top: 40%; left: 50%; width: 400px; height: 400px; background: rgba(139, 92, 246, 0.2); border-radius: 50%; filter: blur(120px); transform: translateX(-50%);"></div>
+
+    <div style="position: relative; z-index: 10; text-align: center;">
+        <div style="position: relative; display: inline-block; margin-bottom: 2rem;">
+            <div style="position: absolute; inset: -15px; background: linear-gradient(45deg, #3b82f6, #ec4899, #8b5cf6); filter: blur(20px); border-radius: 50%; opacity: 0.8; animation: pulseGlow 4s infinite;"></div>
+            <img src="1000_F_794810654_oUwrtZ9JO16rPN93lbAguU72lto7QVJ9.jpg" alt="Hemant Verma" class="profile-img" style="position: relative; z-index: 2; border: 4px solid rgba(255,255,255,0.2); width: 200px; height: 200px; margin: 0;">
+        </div>
+        
+        <h1 style="font-size: 5rem; font-weight: 800; margin-bottom: 0.5rem; letter-spacing: -1.5px; text-shadow: 0 10px 30px rgba(0,0,0,0.5); background: linear-gradient(to right, #fff, #93c5fd); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Hemant Verma</h1>
+        
+        <p style="font-size: 1.5rem; color: #cbd5e1; font-weight: 300; letter-spacing: 5px; text-transform: uppercase; margin-bottom: 2.5rem;">
+            <span id="typewriter"></span><span class="cursor">|</span>
+        </p>
+
+        <div class="social-links" style="display: flex; gap: 1.2rem; justify-content: center; align-items: center; flex-wrap: wrap; animation: fadeInUp 0.8s ease-out 0.2s forwards; opacity: 0;">
+            <a href="https://github.com/hemantverma5733" target="_blank" class="social-btn github">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                GitHub
+            </a>
+            <a href="https://www.linkedin.com/in/hemant-verma-5126a82a7?utm_source=share_via&utm_content=profile&utm_medium=member_android" target="_blank" class="social-btn linkedin">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                LinkedIn
+            </a>
+            <a href="https://www.instagram.com/__hemant__5733?igsh=Y29lZ2JnNnplZjA=" target="_blank" class="social-btn instagram">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                Instagram
+            </a>
+            <a href="https://unstop.com/u/hemanver73015" target="_blank" class="social-btn unstop">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8"></path><path d="M12 17v4"></path><path d="M7 4h10"></path><path d="M17 4v8a5 5 0 0 1-10 0V4"></path><path d="M4 4h3"></path><path d="M20 4h-3"></path><path d="M4 4v2a4 4 0 0 0 4 4"></path><path d="M20 4v2a4 4 0 0 1-4 4"></path></svg>
+                Unstop
+            </a>
+        </div>
+    </div>
+</header>
+
+<section id="about">
+    <div class="card" style="animation: fadeInUp 0.8s ease-out forwards; opacity: 0; position: relative; z-index: 5;">
+        <h2 class="section-title" style="animation: fadeInDown 0.8s ease-out 0.2s forwards; opacity: 0;">About Me</h2>
+        <p class="about-content" style="animation: fadeInUp 0.8s ease-out 0.4s forwards; opacity: 0;">
+            Hello! I am <span style="color: white; font-weight: 600;">Hemant Verma</span>, an aspiring <span style="color: var(--accent-primary); font-weight: 600;">Information Technology</span> student. 
+            I am driven by a deep passion for coding, solving complex problems, and exploring the limitless possibilities of modern tech. I love building highly efficient, dynamically designed applications while continuously expanding my skill set to stay ahead of the curve.
+        </p>
+        
+        <div style="margin-top: 3.5rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 3rem; animation: fadeInUp 0.8s ease-out 0.6s forwards; opacity: 0;">
+            <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 2.5rem; gap: 1rem;">
+                <div style="height: 2px; width: 40px; background: rgba(255,255,255,0.2);"></div>
+                <h3 style="color: var(--text-primary); font-size: 1.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px;">Academic Results</h3>
+                <div style="height: 2px; width: 40px; background: rgba(255,255,255,0.2);"></div>
+            </div>
+            
+            <div style="display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;">
+                <a href="#" onclick="openPasswordModal(event, '1st_sem_marksheet.pdf', '1st Semester')" style="text-decoration: none; color: inherit; display: block;" class="sem-card" data-cgpa="8.3">
+                    <div class="marksheet-card">
+                        <div style="font-size: 2.5rem; margin-bottom: 1rem;">🎓</div>
+                        <h4 style="color: var(--text-secondary); margin-bottom: 0.5rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">1st Semester</h4>
+                        <p style="color: white; font-size: 2.5rem; font-weight: 800; margin: 0; text-shadow: 0 0 20px rgba(59,130,246,0.5);">8.3 <span style="font-size: 1.2rem; color: var(--accent-primary); font-weight: 600;">CGPA</span></p>
+                        <div class="marksheet-btn">View Marksheet 📄</div>
+                    </div>
+                </a>
+                
+                <a href="#" onclick="openPasswordModal(event, '2nd_sem_marksheet.png', '2nd Semester')" style="text-decoration: none; color: inherit; display: block;" class="sem-card" data-cgpa="7.17">
+                    <div class="marksheet-card">
+                        <div style="font-size: 2.5rem; margin-bottom: 1rem;">🏆</div>
+                        <h4 style="color: var(--text-secondary); margin-bottom: 0.5rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">2nd Semester</h4>
+                        <p style="color: white; font-size: 2.5rem; font-weight: 800; margin: 0; text-shadow: 0 0 20px rgba(139,92,246,0.5);">7.17 <span style="font-size: 1.2rem; color: var(--accent-secondary); font-weight: 600;">CGPA</span></p>
+                        <div class="marksheet-btn">View Marksheet 📄</div>
+                    </div>
+                </a>
+                
+                <!-- Overall Aggregate Card -->
+                <div class="marksheet-card" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.08), rgba(217, 119, 6, 0.08)); border-color: rgba(245, 158, 11, 0.3); transform: scale(1.05); z-index: 10;">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem;">🌟</div>
+                    <h4 style="color: var(--text-secondary); margin-bottom: 0.5rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">Overall Aggregate</h4>
+                    <p style="color: white; font-size: 2.5rem; font-weight: 800; margin: 0; text-shadow: 0 0 20px rgba(245, 158, 11, 0.5);"><span id="overallPercentage">0</span><span style="font-size: 1.5rem; color: #fbbf24;">%</span></p>
+                    <div style="color: #fbbf24; font-size: 0.9rem; font-weight: 600; margin-top: 1rem; background: rgba(245,158,11,0.1); padding: 0.4rem 1rem; border-radius: 50px; display: inline-block;">Avg CGPA: <span id="overallCgpa">0</span></div>
+                </div>
+
+                <div class="marksheet-card" style="border: 1px dashed rgba(255,255,255,0.2); opacity: 0.7;">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem; filter: grayscale(1);">⏳</div>
+                    <h4 style="color: var(--text-secondary); margin-bottom: 0.5rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">3rd Semester</h4>
+                    <p style="color: var(--text-secondary); font-size: 1.2rem; font-weight: 500; margin: 0; font-style: italic; margin-top: 1rem;">Results Pending...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>© 2026 Hemant Verma. All rights reserved.</p>
+    <div style="margin-top: 1rem;">
+        <a href="admin.html" style="color: #60a5fa; text-decoration: none; font-size: 0.9rem; padding: 0.5rem 1rem; border: 1px solid rgba(96, 165, 250, 0.3); border-radius: 20px; transition: 0.3s;" onmouseover="this.style.background='rgba(96, 165, 250, 0.1)'" onmouseout="this.style.background='transparent'">Admin Inbox ✉️</a>
+    </div>
+</footer>
+
+<!-- Password Modal -->
+<div id="passwordModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); z-index: 2000; align-items: center; justify-content: center;">
+    <div style="background: var(--card-bg); padding: 2.5rem; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1); text-align: center; width: 90%; max-width: 400px; box-shadow: 0 10px 40px rgba(0,0,0,0.4); animation: fadeInUp 0.3s ease-out;">
+        <h3 style="margin-bottom: 1rem; color: var(--text-primary); font-size: 1.5rem;">Protected File 🔒</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 1.5rem; font-size: 1rem;">Please enter password to view <span id="modalSemesterName">2nd Semester</span> marksheet.</p>
+        <input type="password" id="marksheetPassword" placeholder="Enter Password" style="width: 100%; padding: 1rem; margin-bottom: 1.5rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; font-family: inherit; outline: none; font-size: 1rem; transition: border-color 0.3s;">
+        <div style="display: flex; gap: 1rem; justify-content: center;">
+            <button onclick="closeModal()" style="padding: 0.8rem 1.5rem; border: none; border-radius: 12px; background: rgba(255,255,255,0.05); color: white; cursor: pointer; transition: 0.3s; font-weight: 600; flex: 1;">Cancel</button>
+            <button onclick="verifyPassword()" style="padding: 0.8rem 1.5rem; border: none; border-radius: 12px; background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary)); color: white; cursor: pointer; transition: 0.3s; font-weight: 600; flex: 1;">Submit</button>
+        </div>
+        <p id="passwordError" style="color: #f87171; font-size: 0.9rem; margin-top: 1rem; display: none;">Incorrect password. Try again.</p>
+    </div>
+</div>
+
+<script>
+    let currentMarksheetUrl = "";
+
+    function openPasswordModal(e, marksheetUrl, semesterName) {
+        e.preventDefault();
+        currentMarksheetUrl = marksheetUrl;
+        document.getElementById('passwordModal').style.display = 'flex';
+        document.getElementById('passwordError').style.display = 'none';
+        document.getElementById('marksheetPassword').value = '';
+        document.getElementById('modalSemesterName').innerText = semesterName;
+        setTimeout(() => document.getElementById('marksheetPassword').focus(), 100);
+    }
+
+    function closeModal() {
+        document.getElementById('passwordModal').style.display = 'none';
+    }
+
+    function verifyPassword() {
+        const pass = document.getElementById('marksheetPassword').value;
+        if (pass === "Hemant@2004") {
+            closeModal();
+            window.open(currentMarksheetUrl, "_blank");
+        } else {
+            document.getElementById('passwordError').style.display = 'block';
+            document.getElementById('marksheetPassword').style.borderColor = '#f87171';
+        }
+    }
+    
+    document.getElementById('marksheetPassword').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            verifyPassword();
+        }
+    });
+
+    document.getElementById('marksheetPassword').addEventListener('input', function(e) {
+        document.getElementById('marksheetPassword').style.borderColor = 'rgba(255,255,255,0.1)';
+        document.getElementById('passwordError').style.display = 'none';
+    });
+
+    // Splash Screen Logic
+    document.addEventListener("DOMContentLoaded", () => {
+        const splashScreen = document.getElementById('splash-screen');
+        const splashVideo = document.getElementById('splash-video');
+
+        function hideSplashScreen() {
+            splashScreen.style.opacity = '0';
+            splashScreen.style.visibility = 'hidden';
+            document.body.classList.remove('no-scroll');
+        }
+
+        // Hide exactly after 3 seconds (3000 milliseconds)
+        setTimeout(hideSplashScreen, 3000);
+
+        // Fallback in case autoplay gets completely blocked or video fails to load
+        splashVideo.addEventListener('error', hideSplashScreen);
+        
+        // Allow the user to skip the video by clicking anywhere on it
+        splashScreen.addEventListener('click', hideSplashScreen);
+    });
+
+    // Typewriter Effect
+    const words = ["Student", "Developer", "Innovator", "Tech Enthusiast"];
+    let i = 0;
+    let timer;
+
+    function typingEffect() {
+        let word = words[i].split("");
+        var loopTyping = function() {
+            if (word.length > 0) {
+                document.getElementById('typewriter').innerHTML += word.shift();
+            } else {
+                setTimeout(deletingEffect, 2000);
+                return false;
+            }
+            timer = setTimeout(loopTyping, 100);
+        };
+        loopTyping();
+    }
+
+    function deletingEffect() {
+        let word = words[i].split("");
+        var loopDeleting = function() {
+            if (word.length > 0) {
+                word.pop();
+                document.getElementById('typewriter').innerHTML = word.join("");
+            } else {
+                i = (i + 1) % words.length;
+                setTimeout(typingEffect, 500);
+                return false;
+            }
+            timer = setTimeout(loopDeleting, 50);
+        };
+        loopDeleting();
+    }
+
+    // Start typing effect slightly after page load
+    setTimeout(typingEffect, 1000);
+
+    // Auto-calculate Overall CGPA and Percentage
+    function calculateAggregate() {
+        const semCards = document.querySelectorAll('.sem-card');
+        let totalCgpa = 0;
+        let count = 0;
+
+        semCards.forEach(card => {
+            const cgpa = parseFloat(card.getAttribute('data-cgpa'));
+            if (!isNaN(cgpa)) {
+                totalCgpa += cgpa;
+                count++;
+            }
+        });
+
+        if (count > 0) {
+            const avgCgpa = (totalCgpa / count);
+            const percentage = (avgCgpa * 9.5); // Standard conversion: CGPA * 9.5
+            
+            // Auto update the UI
+            document.getElementById('overallCgpa').innerText = avgCgpa.toFixed(2);
+            document.getElementById('overallPercentage').innerText = percentage.toFixed(2);
+        }
+    }
+    
+    // Run the calculation automatically
+    document.addEventListener("DOMContentLoaded", calculateAggregate);
+    // Also run immediately in case DOM is already loaded
+    calculateAggregate();
+</script>
+</body>
+</html>
