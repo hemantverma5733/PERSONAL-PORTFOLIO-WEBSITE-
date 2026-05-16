@@ -479,7 +479,7 @@
     // --- Guestbook Logic ---
     async function loadGuestbook() {
         try {
-            const res = await fetch('http://localhost:3000/api/guestbook');
+            const res = await fetch('/api/guestbook');
             const data = await res.json();
             const container = document.getElementById('guestbookEntries');
             
@@ -520,7 +520,7 @@
         status.innerText = '';
 
         try {
-            const res = await fetch('http://localhost:3000/api/guestbook', {
+            const res = await fetch('/api/guestbook', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name, message, emoji })
