@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hemant Verma — Resume</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=VT323&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #a855f7;
+    --green-dim: #7c3aed;
+    --green-dark: #4c1d95;
+    --green-faint: rgba(168,85,247,0.07);
+    --bg: #05050f;
+    --bg2: #080818;
+    --border: rgba(168,85,247,0.28);
+    --text: #e2d9f3;
+    --text-dim: #8b7aaa;
+    --accent: #22d3ee;
+    --accent2: #38bdf8;
+    --red: #f472b6;
+    --yellow: #fbbf24;
+    --font-mono: 'Share Tech Mono', monospace;
+    --font-head: 'Orbitron', sans-serif;
+    --font-display: 'VT323', monospace;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: linear-gradient(135deg, #05050f 0%, #0a0520 50%, #05050f 100%);
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* scanline overlay */
+  body::before {
+    content:'';
+    position:fixed; inset:0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(168,85,247,0.012) 2px,
+      rgba(168,85,247,0.012) 4px
+    );
+    pointer-events:none;
+    z-index:9999;
+  }
+
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 30px 24px 50px;
+  }
+
+  /* ── TOP BAR ── */
+  .topbar {
+    font-size: 11px;
+    color: var(--green-dim);
+    margin-bottom: 18px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .topbar .prompt { color: var(--green); }
+  .topbar .blink {
+    display:inline-block;
+    width:8px; height:13px;
+    background: var(--green);
+    margin-left:3px;
+    animation: blink 1s step-end infinite;
+    vertical-align:middle;
+  }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+  /* ── HEADER ── */
+  .header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 20px;
+    margin-bottom: 28px;
+    align-items: start;
+  }
+
+  .name-block {}
+
+  h1.name {
+    font-family: var(--font-head);
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--green);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    text-shadow: 0 0 20px rgba(168,85,247,0.6), 0 0 60px rgba(168,85,247,0.25), 0 0 100px rgba(34,211,238,0.1);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .subtitle {
+    font-family: var(--font-mono);
+    color: var(--text-dim);
+    font-size: 12px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+  .tag {
+    background: rgba(0,255,136,0.1);
+    border: 1px solid var(--green-dark);
+    color: var(--green);
+    padding: 2px 10px;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .tag.active { background: var(--green); color: #000; font-weight:700; }
+
+  .contact-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+  .contact-row span::before { content:'> '; color: var(--green-dim); }
+  .contact-row a {
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .contact-row a:hover { color: var(--green); text-decoration: underline; }
+  .contact-row a::before { content:'> '; color: var(--green-dim); }
+
+  /* SYS STATUS card */
+  .sys-card {
+    border: 1px solid var(--border);
+    padding: 14px 18px;
+    min-width: 180px;
+    background: var(--green-faint);
+    position: relative;
+  }
+  .sys-card::before {
+    content:'// SYS.STATUS';
+    position:absolute; top:-9px; left:10px;
+    background: var(--bg);
+    padding: 0 6px;
+    font-size:10px;
+    color: var(--text-dim);
+    letter-spacing:1px;
+  }
+  .sys-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    font-size: 11px;
+    margin-bottom: 3px;
+  }
+  .sys-row .key { color: var(--text-dim); }
+  .sys-row .val { color: var(--green); }
+  .sys-row .val.blue { color: var(--accent); }
+  .access-btn {
+    display: block;
+    margin-top: 10px;
+    background: rgba(0,255,136,0.15);
+    border: 1px solid var(--green);
+    color: var(--green);
+    text-align: center;
+    padding: 5px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .dot { width:7px; height:7px; border-radius:50%; background:var(--green); display:inline-block; margin-right:5px; box-shadow:0 0 6px var(--green), 0 0 12px rgba(168,85,247,0.5); animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+  /* ── SECTION ── */
+  .section { margin-bottom: 26px; }
+
+  .sec-title {
+    font-family: var(--font-head);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--green);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .sec-title .num { color: var(--text-dim); font-size: 11px; font-family: var(--font-mono); }
+  .sec-title::after {
+    content:'';
+    flex:1;
+    height: 1px;
+    background: linear-gradient(to right, #4c1d95, transparent);
+  }
+
+  /* ABOUT BOX */
+  .about-box {
+    border-left: 3px solid var(--green);
+    padding: 12px 16px;
+    background: var(--green-faint);
+    font-size: 13px;
+    color: var(--text);
+    font-style: italic;
+    line-height: 1.7;
+  }
+
+  /* SKILLS GRID */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .skill-group {
+    border: 1px solid var(--border);
+    padding: 12px 14px;
+    background: var(--green-faint);
+    position: relative;
+  }
+  .skill-group-title {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .skill-group-title::before { content:'// '; color: var(--green-dim); }
+  .pill-row { display:flex; flex-wrap:wrap; gap:6px; }
+  .pill {
+    background: rgba(0,255,136,0.1);
+    border: 1px solid var(--green-dark);
+    color: var(--green);
+    padding: 2px 9px;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+  }
+
+  /* TOOLS */
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .tool-card {
+    border: 1px solid var(--border);
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--green-faint);
+    transition: background 0.2s;
+  }
+  .tool-card:hover { background: rgba(0,255,136,0.12); }
+  .tool-icon {
+    width: 28px; height: 28px;
+    background: rgba(0,255,136,0.15);
+    border: 1px solid var(--green-dark);
+    display:flex; align-items:center; justify-content:center;
+    font-size: 11px; font-weight:700; color: var(--green);
+    flex-shrink:0;
+  }
+  .tool-name { font-size: 12px; color: var(--text); }
+  .tool-sub { font-size: 10px; color: var(--text-dim); }
+
+  /* PROJECTS */
+  .project-card {
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--green);
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    background: var(--green-faint);
+    position: relative;
+  }
+  .project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .project-name {
+    font-family: var(--font-head);
+    font-size: 12px;
+    color: var(--green);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .project-date {
+    font-size: 10px;
+    color: var(--text-dim);
+    border: 1px solid var(--border);
+    padding: 1px 8px;
+  }
+  .project-desc {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+    line-height: 1.6;
+  }
+  .project-desc li { margin-left: 14px; margin-bottom: 2px; }
+  .tech-tags { display:flex; flex-wrap:wrap; gap:5px; }
+  .tech-tag {
+    background: rgba(0,255,136,0.12);
+    border: 1px solid var(--green-dark);
+    color: var(--accent2);
+    padding: 1px 8px;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+  }
+
+  /* EDUCATION TABLE */
+  .edu-table { width:100%; border-collapse:collapse; }
+  .edu-table th {
+    text-align:left;
+    font-size:10px;
+    letter-spacing:2px;
+    color: var(--text-dim);
+    text-transform:uppercase;
+    padding: 6px 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .edu-table td {
+    padding: 9px 10px;
+    font-size: 12px;
+    border-bottom: 1px solid rgba(0,255,136,0.08);
+    color: var(--text);
+  }
+  .edu-table tr:hover td { background: var(--green-faint); }
+  .edu-table td .score { color: var(--green); font-weight:700; }
+  .edu-table td .pursuing { color: var(--yellow); }
+  .edu-table td .num { color: var(--text-dim); font-size:11px; }
+
+  /* CERTS */
+  .certs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .cert-card {
+    border: 1px solid var(--border);
+    padding: 12px 14px;
+    background: var(--green-faint);
+  }
+  .cert-name {
+    font-size: 12px;
+    color: var(--text);
+    margin-bottom: 3px;
+  }
+  .cert-source {
+    font-size: 10px;
+    color: var(--text-dim);
+  }
+  .cert-source::before { content: '// '; color: var(--green-dim); }
+  .cert-dot { display:inline-block; width:6px; height:6px; border-radius:50%; background: var(--green); margin-right:6px; }
+
+  /* PERSONAL */
+  .personal-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .personal-cell {
+    border: 1px solid var(--border);
+    padding: 10px 14px;
+    background: var(--green-faint);
+  }
+  .p-label { font-size:9px; letter-spacing:2px; text-transform:uppercase; color: var(--text-dim); margin-bottom:4px; }
+  .p-val { font-size: 13px; color: var(--text); }
+
+  /* FOOTER */
+  .footer {
+    margin-top: 30px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+  .footer .sig { color: var(--green); font-family: var(--font-head); letter-spacing:2px; font-size:12px; }
+
+  @media print {
+    body { background:#fff; color:#000; }
+    body::before { display:none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <span><span class="prompt">root@arch:~#</span> cat /profiles/hemant_verma.txt<span class="blink"></span></span>
+    <span>SESSION: ACTIVE | TTY0</span>
+  </div>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="name-block">
+      <h1 class="name">HEMANT VERMA</h1>
+      <div class="subtitle">Information Technology</div>
+      <div class="tags">
+        <span class="tag active">B.Tech IT</span>
+        <span class="tag active">AI / ML</span>
+        <span class="tag">Software Developer</span>
+        <span class="tag">Entry Level</span>
+      </div>
+      <div class="contact-row">
+        <span>Jhunjhunu, RAJ., India</span>
+        <span>+91 9785293453</span>
+        <span>hemantverma5733@gmail.com</span>
+        <a href="https://github.com/hemantverma5733" target="_blank">github.com/hemantverma5733</a>
+        <a href="https://www.linkedin.com/in/hemant-verma-5126a82a7" target="_blank">linkedin/hemant-verma</a>
+        <a href="https://hemantverma5733.github.io/PERSONAL-PORTFOLIO-WEBSITE-/" target="_blank">Portfolio Website</a>
+      </div>
+    </div>
+
+    <div class="sys-card">
+      <div class="sys-row"><span class="key">Level</span><span class="val">Beginner</span></div>
+      <div class="sys-row"><span class="key">Status</span><span class="val">Active</span></div>
+      <div class="sys-row"><span class="key">Mode</span><span class="val blue">Learning</span></div>
+      <div class="sys-row"><span class="key">Domain</span><span class="val blue">AI / ML</span></div>
+      <div class="access-btn"><span class="dot"></span>ACCESS GRANTED</div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <div class="section">
+    <div class="sec-title"><span class="num">[01]</span> ABOUT ME</div>
+    <div class="about-box">
+      B.Tech (IT) student with strong skills in programming, web development, and problem-solving. Passionate about Artificial Intelligence & Machine Learning, software development, and continuously expanding technical expertise through real-world projects and certifications.
+    </div>
+  </div>
+
+  <!-- SKILLS -->
+  <div class="section">
+    <div class="sec-title"><span class="num">[02]</span> TECHNICAL ARSENAL</div>
+    <div class="skills-grid">
+      <div class="skill-group">
+        <div class="skill-group-title">Programming Languages</div>
+        <div class="pill-row">
+          <span class="pill">C</span>
+          <span class="pill">C++</span>
+          <span class="pill">Java</span>
+          <span class="pill">Python</span>
+          <span class="pill">JavaScript</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Web Technologies</div>
+        <div class="pill-row">
+          <span class="pill">HTML5</span>
+          <span class="pill">CSS3</span>
+          <span class="pill">Node.js</span>
+          <span class="pill">Express.js</span>
+          <span class="pill">SQLite</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Concepts & Tools</div>
+        <div class="pill-row">
+          <span class="pill">OOP</span>
+          <span class="pill">File Handling</span>
+          <span class="pill">Arduino</span>
+          <span class="pill">Embedded C</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">Soft Skills</div>
+        <div class="pill-row">
+          <span class="pill">Leadership</span>
+          <span class="pill">Analytics</span>
+          <span class="pill">Teamwork</span>
+          <span class="pill">Communication</span>
+          <span class="pill">Problem Solving</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">AI / ML (Learning)</div>
+        <div class="pill-row">
+          <span class="pill">Machine Learning</span>
+          <span class="pill">Deep Learning</span>
+          <span class="pill">Python (NumPy)</span>
+          <span class="pill">Data Analysis</span>
+          <span class="pill">Neural Networks</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOOLS -->
+  <div class="section">
+    <div class="sec-title"><span class="num">[03]</span> TOOLS & PLATFORMS</div>
+    <div class="tools-grid">
+      <div class="tool-card">
+        <div class="tool-icon">AR</div>
+        <div><div class="tool-name">Arduino</div><div class="tool-sub">Hardware Control</div></div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">GH</div>
+        <div><div class="tool-name">Git / GitHub</div><div class="tool-sub">Version Control</div></div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">SL</div>
+        <div><div class="tool-name">SQLite</div><div class="tool-sub">Database</div></div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">VS</div>
+        <div><div class="tool-name">VS Code</div><div class="tool-sub">IDE</div></div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">EC</div>
+        <div><div class="tool-name">Eclipse</div><div class="tool-sub">Java IDE</div></div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-icon">EX</div>
+        <div><div class="tool-name">Express.js</div><div class="tool-sub">Web Framework</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROJECTS -->
+  <div class="section">
+    <div class="sec-title"><span class="num">[04]</span> PROJECTS & LABS</div>
+
+    <div class="project-card">
+      <div class="project-header">
+        <span class="project-name">Personal Portfolio Website</span>
+        <span class="project-date">JAN 2026 — PRESENT</span>
+      </div>
+      <ul class="project-desc">
+        <li>Designed and developed a modern, responsive portfolio with attractive UI and smooth animations.</li>
+        <li>Built backend using Node.js &amp; Express to handle user messages with database integration.</li>
+        <li>Created admin dashboard with dynamic message viewer and secure marksheet access.</li>
+      </ul>
+      <div class="tech-tags">
+        <span class="tech-tag">HTML</span>
+        <span class="tech-tag">CSS</span>
+        <span class="tech-tag">JavaScript</span>
+        <span class="tech-tag">Node.js</span>
+        <span class="tech-tag">Express.js</span>
+        <span class="tech-tag">Python</span>
+        <span class="tech-tag">SQLite</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-header">
+        <span class="project-name">AI Futuristic Air Mouse</span>
+        <span class="project-date">2025 – 2026</span>
+      </div>
+      <ul class="project-desc">
+        <li>Built an AI-powered virtual mouse controlled by hand gestures using computer vision.</li>
+        <li>Used MediaPipe & OpenCV to detect hand landmarks and map finger movements to cursor control in real-time.</li>
+        <li>Implemented click, scroll, and drag actions through gesture recognition — no physical mouse required.</li>
+      </ul>
+      <div class="tech-tags">
+        <span class="tech-tag">Python</span>
+        <span class="tech-tag">OpenCV</span>
+        <span class="tech-tag">MediaPipe</span>
+        <span class="tech-tag">AI</span>
+        <span class="tech-tag">Computer Vision</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-header">
+        <span class="project-name">To-Do List Management System (C++)</span>
+        <span class="project-date">OCT 2025 — NOV 2025</span>
+      </div>
+      <ul class="project-desc">
+        <li>Developed a fully functional console-based To-Do List application implementing core Object-Oriented Programming principles in C++.</li>
+        <li>Implemented features to Add, Delete, View, and Manage daily tasks with a clean user interface in the terminal.</li>
+        <li>Integrated File Handling to store and retrieve user task data persistently — data remains saved even after the program closes.</li>
+      </ul>
+      <div class="tech-tags">
+        <span class="tech-tag">C++</span>
+        <span class="tech-tag">OOP</span>
+        <span class="tech-tag">File Handling</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-header">
+        <span class="project-name">Automatic Railway Gate Control System</span>
+        <span class="project-date">SEP 2025 — NOV 2025</span>
+      </div>
+      <ul class="project-desc">
+        <li>Designed an automated railway crossing using Ultrasonic Sensors, Servo Motor, and Arduino.</li>
+        <li>Implemented real-time train detection to auto-open/close the gate, reducing human error.</li>
+      </ul>
+      <div class="tech-tags">
+        <span class="tech-tag">Arduino</span>
+        <span class="tech-tag">Embedded C</span>
+        <span class="tech-tag">HC-SR04</span>
+        <span class="tech-tag">Servo Motor</span>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-header">
+        <span class="project-name">Library Management System (Java)</span>
+        <span class="project-date">SEP 2026</span>
+      </div>
+      <ul class="project-desc">
+        <li>Built a system to manage book records, issue/return operations, and user data with search functionality.</li>
+      </ul>
+      <div class="tech-tags">
+        <span class="tech-tag">Java</span>
+        <span class="tech-tag">OOP</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- EDUCATION -->
+  <div class="section">
+    <div class="sec-title"><span class="num">[05]</span> ACADEMIC CREDENTIALS</div>
+    <table class="edu-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Qualification</th>
+          <th>Board / University</th>
+          <th>Year</th>
+          <th>Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="num">01</td>
+          <td>B.Tech (IT) — 1st Sem</td>
+          <td>Arya College of Engg. & IT, RTU</td>
+          <td>2024–25</td>
+          <td><span class="score">7.80 CGPA</span></td>
+        </tr>
+        <tr>
+          <td class="num">02</td>
+          <td>B.Tech (IT) — 2nd Sem</td>
+          <td>Arya College of Engg. & IT, RTU</td>
+          <td>2025</td>
+          <td><span class="score">7.70 CGPA</span></td>
+        </tr>
+        <tr>
+          <td class="num">03</td>
+          <td>B.Tech (IT) — 3rd Sem</td>
+          <td>Arya College of Engg. & IT, RTU</td>
+          <td>2025–26</td>
+          <td><span class="score">9.00 CGPA</span></td>
+        </tr>
+        <tr>
+          <td class="num">04</td>
+          <td>B.Tech (IT) — Full Degree</td>
+          <td>Arya College of Engg. & IT, RTU</td>
+          <td>2024–2028</td>
+          <td><span class="pursuing">Pursuing</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- CERTS -->
+  <div class="section">
+    <div class="sec-title"><span class="num">[06]</span> CERTIFICATIONS</div>
+    <div class="certs-grid">
+      <div class="cert-card">
+        <div class="cert-name"><span class="cert-dot"></span>Programming in C</div>
+        <div class="cert-source">Infosys Springboard</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-name"><span class="cert-dot"></span>Essential C++</div>
+        <div class="cert-source">Infosys Springboard</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-name"><span class="cert-dot"></span>C Essentials 1</div>
+        <div class="cert-source">Cisco Networking Academy · Completed</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-name"><span class="cert-dot"></span>Spoken Tutorial</div>
+        <div class="cert-source">IIT Bombay · Completed</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PERSONAL -->
+  <div class="section">
+    <div class="sec-title"><span class="num">[07]</span> PERSONAL INFORMATION</div>
+    <div class="personal-grid">
+      <div class="personal-cell"><div class="p-label">Date of Birth</div><div class="p-val">11 September 2004</div></div>
+      <div class="personal-cell"><div class="p-label">Nationality</div><div class="p-val">Indian</div></div>
+      <div class="personal-cell"><div class="p-label">Category</div><div class="p-val">OBC</div></div>
+      <div class="personal-cell"><div class="p-label">Location</div><div class="p-val">Jhunjhunu, Rajasthan</div></div>
+      <div class="personal-cell"><div class="p-label">Languages</div><div class="p-val">Hindi, English</div></div>
+      <div class="personal-cell"><div class="p-label">Status</div><div class="p-val">Unmarried</div></div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <span>I hereby declare that all information provided above is true and accurate to the best of my knowledge.</span>
+    <div style="text-align:right">
+      <div class="sig">HEMANT VERMA</div>
+      <div style="margin-top:3px">Place: Rajasthan<br>Date: 14-05-2026</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
