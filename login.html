@@ -72,6 +72,11 @@
     </style>
 </head>
 <body>
+<script>
+    if (localStorage.getItem('theme') === 'light') {
+        document.body.classList.add('light-mode');
+    }
+</script>
 
     <div class="login-card">
         <h2>Admin Login</h2>
@@ -135,6 +140,19 @@
                 btn.textContent = 'Login';
             }
         });
-    </script>
+    
+    // --- Theme Toggle Logic ---
+    function toggleTheme() {
+        document.body.classList.toggle('light-mode');
+        const isLight = document.body.classList.contains('light-mode');
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        
+        const btn = document.getElementById('themeToggleBtn');
+        if (btn) {
+            btn.style.transform = isLight ? 'rotate(180deg)' : 'rotate(0deg)';
+        }
+    }
+
+</script>
 </body>
 </html>

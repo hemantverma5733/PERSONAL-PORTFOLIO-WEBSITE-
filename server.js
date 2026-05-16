@@ -64,6 +64,15 @@ const db = new sqlite3.Database(path.join(__dirname, 'database.sqlite'), (err) =
                 });
             }
         });
+
+        // 3. Guestbook table
+        db.run(`CREATE TABLE IF NOT EXISTS guestbook (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            message TEXT NOT NULL,
+            emoji TEXT,
+            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+        )`);
     }
 });
 
@@ -185,6 +194,25 @@ app.get('/api/messages', authenticateJWT, (req, res) => {
     db.all('SELECT * FROM messages ORDER BY timestamp DESC', [], (err, rows) => {
         if (err) return res.status(500).json({ success: false, error: 'Database error.' });
         res.json({ success: true, data: rows });
+    });
+});
+
+// Guestbook API
+app.get('/api/guestbook', (req, res) => {
+    db.all('SELECT * FROM guestbook ORDER BY timestamp DESC LIMIT 50', [], (err, rows) => {
+        if (err) return res.status(500).json({ success: false, error: 'Database error.' });
+        res.json({ success: true, data: rows });
+    });
+});
+
+app.post('/api/guestbook', contactLimiter, (req, res) => {
+    const { name, message, emoji } = req.body;
+    if (!name || !message) return res.status(400).json({ error: 'Name and message are required.' });
+
+    const sql = 'INSERT INTO guestbook (name, message, emoji) VALUES (?, ?, ?)';
+    db.run(sql, [name, message, emoji || '👍'], function(err) {
+        if (err) return res.status(500).json({ error: 'Failed to save entry.' });
+        res.status(201).json({ success: true, id: this.lastID });
     });
 });
 

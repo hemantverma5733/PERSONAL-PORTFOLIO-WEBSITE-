@@ -151,6 +151,11 @@
     </style>
 </head>
 <body class="no-scroll">
+<script>
+    if (localStorage.getItem('theme') === 'light') {
+        document.body.classList.add('light-mode');
+    }
+</script>
 
 <!-- Splash Screen overlay -->
 <div id="splash-screen">
@@ -169,6 +174,7 @@
     <a href="dashboard.html">Dashboard</a>
     <a href="resume.html">Resume</a>
     <a href="contact.html">Contact</a>
+    <button id="themeToggleBtn" onclick="toggleTheme()" style="background: none; border: none; font-size: 1.3rem; cursor: pointer; color: inherit; margin-left: 1rem; transition: transform 0.3s;">🌓</button>
 </nav>
 
 <header style="position: relative; overflow: hidden; padding: 12rem 2rem 8rem;">
@@ -266,6 +272,46 @@
                     <h4 style="color: var(--text-secondary); margin-bottom: 0.5rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">4th Semester</h4>
                     <p style="color: var(--text-secondary); font-size: 1.2rem; font-weight: 500; margin: 0; font-style: italic; margin-top: 1rem;">Pursuing...</p>
                 </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Guestbook Section -->
+<section id="guestbook" style="padding-top: 0;">
+    <div class="card" style="animation: fadeInUp 0.8s ease-out forwards; position: relative; z-index: 5;">
+        <h2 class="section-title">Visitor Guestbook</h2>
+        <p style="text-align: center; color: var(--text-secondary); margin-bottom: 2rem;">Leave a quick message or reaction! ❤️</p>
+        
+        <div style="display: flex; flex-direction: column; md:flex-row; gap: 3rem;">
+            <!-- Guestbook Form -->
+            <div style="flex: 1;">
+                <form id="guestbookForm" onsubmit="submitGuestbook(event)" style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div class="form-group">
+                        <input type="text" id="gbName" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="gbMessage" placeholder="Leave a nice message..." rows="3" required></textarea>
+                    </div>
+                    <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 1rem;">
+                        <span style="color: var(--text-secondary);">Reaction:</span>
+                        <select id="gbEmoji" style="padding: 0.5rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: var(--text-primary); font-size: 1.2rem; outline: none; transition: 0.3s;">
+                            <option value="👍">👍</option>
+                            <option value="🚀">🚀</option>
+                            <option value="🔥">🔥</option>
+                            <option value="❤️">❤️</option>
+                            <option value="💻">💻</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="submit-btn" id="gbSubmitBtn">Sign Guestbook ✍️</button>
+                    <p id="gbStatus" class="form-status"></p>
+                </form>
+            </div>
+            
+            <!-- Recent Entries -->
+            <div style="flex: 1; max-height: 400px; overflow-y: auto; padding-right: 1rem; display: flex; flex-direction: column; gap: 1rem;" id="guestbookEntries">
+                <div style="text-align: center; color: var(--text-secondary); margin-top: 2rem;">Loading entries...</div>
             </div>
         </div>
     </div>
@@ -418,6 +464,90 @@
     document.addEventListener("DOMContentLoaded", calculateAggregate);
     // Also run immediately in case DOM is already loaded
     calculateAggregate();
+
+    // --- Theme Toggle Logic ---
+    function toggleTheme() {
+        document.body.classList.toggle('light-mode');
+        const isLight = document.body.classList.contains('light-mode');
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        
+        // Add a fun little rotation to the button
+        const btn = document.getElementById('themeToggleBtn');
+        btn.style.transform = isLight ? 'rotate(180deg)' : 'rotate(0deg)';
+    }
+
+    // --- Guestbook Logic ---
+    async function loadGuestbook() {
+        try {
+            const res = await fetch('/api/guestbook');
+            const data = await res.json();
+            const container = document.getElementById('guestbookEntries');
+            
+            if (data.success && data.data.length > 0) {
+                container.innerHTML = '';
+                data.data.forEach(entry => {
+                    const date = new Date(entry.timestamp).toLocaleDateString();
+                    container.innerHTML += `
+                        <div style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); padding: 1rem; border-radius: 12px; animation: fadeInUp 0.5s ease-out;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                <strong style="color: var(--text-primary);">${entry.name}</strong>
+                                <span style="font-size: 1.5rem;">${entry.emoji}</span>
+                            </div>
+                            <p style="color: var(--text-secondary); margin-bottom: 0.5rem; font-size: 0.95rem;">${entry.message}</p>
+                            <span style="font-size: 0.8rem; color: #64748b;">${date}</span>
+                        </div>
+                    `;
+                });
+            } else {
+                container.innerHTML = '<div style="text-align: center; color: var(--text-secondary); margin-top: 2rem;">No entries yet. Be the first!</div>';
+            }
+        } catch (error) {
+            document.getElementById('guestbookEntries').innerHTML = '<div style="text-align: center; color: #f87171;">Failed to load entries.</div>';
+        }
+    }
+
+    async function submitGuestbook(e) {
+        e.preventDefault();
+        const btn = document.getElementById('gbSubmitBtn');
+        const status = document.getElementById('gbStatus');
+        const name = document.getElementById('gbName').value;
+        const message = document.getElementById('gbMessage').value;
+        const emoji = document.getElementById('gbEmoji').value;
+
+        btn.disabled = true;
+        btn.innerText = 'Submitting...';
+        status.className = 'form-status';
+        status.innerText = '';
+
+        try {
+            const res = await fetch('/api/guestbook', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, message, emoji })
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                status.innerText = 'Success! Thanks for signing.';
+                status.classList.add('status-success');
+                document.getElementById('guestbookForm').reset();
+                loadGuestbook(); // Reload entries
+            } else {
+                status.innerText = data.error || 'Failed to submit.';
+                status.classList.add('status-error');
+            }
+        } catch (error) {
+            status.innerText = 'An error occurred.';
+            status.classList.add('status-error');
+        } finally {
+            btn.disabled = false;
+            btn.innerText = 'Sign Guestbook ✍️';
+        }
+    }
+
+    // Load guestbook on page load
+    document.addEventListener("DOMContentLoaded", loadGuestbook);
 </script>
 </body>
 </html>

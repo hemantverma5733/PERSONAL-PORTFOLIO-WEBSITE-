@@ -14,6 +14,14 @@ def init_db():
                   email TEXT NOT NULL,
                   message TEXT NOT NULL,
                   timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)''')
+                  
+    # Create guestbook table if it doesn't exist
+    c.execute('''CREATE TABLE IF NOT EXISTS guestbook
+                 (id INTEGER PRIMARY KEY AUTOINCREMENT,
+                  name TEXT NOT NULL,
+                  message TEXT NOT NULL,
+                  emoji TEXT,
+                  timestamp DATETIME DEFAULT CURRENT_TIMESTAMP)''')
     conn.commit()
     conn.close()
 
@@ -44,6 +52,28 @@ class RequestHandler(SimpleHTTPRequestHandler):
                 self.send_header('Content-type', 'application/json')
                 self.end_headers()
                 self.wfile.write(json.dumps({'success': True, 'data': messages}).encode('utf-8'))
+            except Exception as e:
+                self.send_response(500)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps({'error': str(e)}).encode('utf-8'))
+            return
+
+        if self.path == '/api/guestbook':
+            try:
+                conn = sqlite3.connect('database.sqlite')
+                c = conn.cursor()
+                c.execute('SELECT * FROM guestbook ORDER BY timestamp DESC LIMIT 50')
+                rows = c.fetchall()
+                conn.close()
+                entries = []
+                for row in rows:
+                    entries.append({'id': row[0], 'name': row[1], 'message': row[2], 'emoji': row[3], 'timestamp': row[4]})
+                
+                self.send_response(200)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps({'success': True, 'data': entries}).encode('utf-8'))
             except Exception as e:
                 self.send_response(500)
                 self.send_header('Content-type', 'application/json')
@@ -92,6 +122,44 @@ class RequestHandler(SimpleHTTPRequestHandler):
                 self.send_header('Content-type', 'application/json')
                 self.end_headers()
                 self.wfile.write(json.dumps({'error': 'Failed to save message: ' + str(e)}).encode('utf-8'))
+            return
+            
+        if self.path == '/api/guestbook':
+            content_length = int(self.headers.get('Content-Length', 0))
+            post_data = self.rfile.read(content_length)
+            
+            try:
+                data = json.loads(post_data.decode('utf-8'))
+                name = data.get('name', '').strip()
+                message = data.get('message', '').strip()
+                emoji = data.get('emoji', '👍').strip()
+                
+                if not name or not message:
+                    self.send_response(400)
+                    self.send_header('Content-type', 'application/json')
+                    self.end_headers()
+                    self.wfile.write(json.dumps({'error': 'Name and message are required.'}).encode('utf-8'))
+                    return
+                
+                conn = sqlite3.connect('database.sqlite')
+                c = conn.cursor()
+                c.execute('INSERT INTO guestbook (name, message, emoji) VALUES (?, ?, ?)',
+                          (name, message, emoji))
+                conn.commit()
+                last_id = c.lastrowid
+                conn.close()
+                
+                self.send_response(201)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps({'success': True, 'id': last_id}).encode('utf-8'))
+                
+            except Exception as e:
+                self.send_response(500)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps({'error': 'Failed to save entry: ' + str(e)}).encode('utf-8'))
+            return
         else:
             self.send_response(404)
             self.end_headers()

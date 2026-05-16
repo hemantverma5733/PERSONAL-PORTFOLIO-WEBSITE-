@@ -9,15 +9,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+</head>
+<body class="no-scroll">
+<script>
+    if (localStorage.getItem('theme') === 'light') {
+        document.body.classList.add('light-mode');
+    }
+</script>
 
 <nav>
     <a href="index.html">About</a>
     <a href="skills.html">Skills</a>
     <a href="projects.html">Projects</a>
     <a href="certifications.html">Certifications</a>
+    <a href="dashboard.html">Dashboard</a>
     <a href="resume.html">Resume</a>
     <a href="contact.html" class="active">Contact</a>
+    <button id="themeToggleBtn" onclick="toggleTheme()" style="background: none; border: none; font-size: 1.3rem; cursor: pointer; color: inherit; margin-left: 1rem; transition: transform 0.3s;">🌓</button>
 </nav>
 
 <section id="contact">
@@ -92,6 +100,16 @@
             submitBtn.textContent = 'Send Message';
         }
     });
+
+    // --- Theme Toggle Logic ---
+    function toggleTheme() {
+        document.body.classList.toggle('light-mode');
+        const isLight = document.body.classList.contains('light-mode');
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        
+        const btn = document.getElementById('themeToggleBtn');
+        btn.style.transform = isLight ? 'rotate(180deg)' : 'rotate(0deg)';
+    }
 </script>
 
 <footer>

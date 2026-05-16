@@ -402,6 +402,24 @@
 </style>
 </head>
 <body>
+<script>
+    if (localStorage.getItem('theme') === 'light') {
+        document.body.classList.add('light-mode');
+    }
+
+    // --- Theme Toggle Logic ---
+    function toggleTheme() {
+        document.body.classList.toggle('light-mode');
+        const isLight = document.body.classList.contains('light-mode');
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        
+        const btn = document.getElementById('themeToggleBtn');
+        if (btn) {
+            btn.style.transform = isLight ? 'rotate(180deg)' : 'rotate(0deg)';
+        }
+    }
+
+</script>
 <div class="page">
 
   <!-- TOP BAR -->

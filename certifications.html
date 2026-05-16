@@ -82,6 +82,24 @@
     </style>
 </head>
 <body>
+<script>
+    if (localStorage.getItem('theme') === 'light') {
+        document.body.classList.add('light-mode');
+    }
+
+    // --- Theme Toggle Logic ---
+    function toggleTheme() {
+        document.body.classList.toggle('light-mode');
+        const isLight = document.body.classList.contains('light-mode');
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        
+        const btn = document.getElementById('themeToggleBtn');
+        if (btn) {
+            btn.style.transform = isLight ? 'rotate(180deg)' : 'rotate(0deg)';
+        }
+    }
+
+</script>
 
 <nav>
     <a href="index.html">About</a>
@@ -90,6 +108,7 @@
     <a href="certifications.html" class="active">Certifications</a>
     <a href="resume.html">Resume</a>
     <a href="contact.html">Contact</a>
+    <button id="themeToggleBtn" onclick="toggleTheme()" style="background: none; border: none; font-size: 1.3rem; cursor: pointer; color: inherit; margin-left: 1rem; transition: transform 0.3s;">🌓</button>
 </nav>
 
 <section id="certifications">

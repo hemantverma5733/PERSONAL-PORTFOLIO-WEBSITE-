@@ -391,3 +391,57 @@ footer {
         padding: 2rem;
     }
 }
+
+/* Light Mode Overrides */
+body.light-mode {
+    --bg-color: #f8fafc;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --card-bg: rgba(255, 255, 255, 0.8);
+    background: linear-gradient(-45deg, #e0f2fe, #f3e8ff, #dcfce7, #dbeafe, #f3e8ff);
+}
+
+body.light-mode nav {
+    background: rgba(248, 250, 252, 0.8);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+}
+
+body.light-mode nav a {
+    color: var(--text-primary);
+}
+
+body.light-mode nav a:hover, body.light-mode nav a.active {
+    color: var(--accent-primary);
+}
+
+body.light-mode .card {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+body.light-mode header h1 {
+    background: linear-gradient(to right, #1d4ed8, #7e22ce);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+body.light-mode .form-group input, 
+body.light-mode .form-group textarea {
+    background: rgba(0, 0, 0, 0.02);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    color: var(--text-primary);
+}
+
+body.light-mode footer {
+    background: rgba(248, 250, 252, 0.9);
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+body.light-mode .project-item {
+    background: rgba(0, 0, 0, 0.02);
+}
+
+body.light-mode .project-item h3 {
+    color: #0f172a;
+}
