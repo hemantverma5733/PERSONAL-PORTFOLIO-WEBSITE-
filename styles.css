@@ -40,15 +40,58 @@ nav {
     background: rgba(15, 23, 42, 0.8);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    padding: 1rem 2rem;
+    padding: 0.8rem 4rem;
     display: flex;
-    justify-content: center;
-    gap: 2.5rem;
+    justify-content: space-between;
+    align-items: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
 }
 
-nav a {
+/* Nav Brand / Logo */
+.nav-brand {
+    display: flex;
+    align-items: center;
+}
+
+.logo-link {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    text-decoration: none;
+    transition: transform 0.3s ease;
+}
+
+.logo-link:hover {
+    transform: scale(1.05);
+}
+
+.nav-logo {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+    border-radius: 8px;
+    border: 1.5px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+}
+
+.logo-text {
+    font-size: 1.25rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #60a5fa 0%, #c084fc 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.5px;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.nav-links a {
     color: var(--text-primary);
     text-decoration: none;
     font-weight: 600;
@@ -58,7 +101,7 @@ nav a {
     padding: 0.5rem 0;
 }
 
-nav a::after {
+.nav-links a::after {
     content: '';
     position: absolute;
     width: 0;
@@ -69,11 +112,11 @@ nav a::after {
     transition: width 0.3s ease;
 }
 
-nav a:hover, nav a.active {
+.nav-links a:hover, .nav-links a.active {
     color: #ffffff;
 }
 
-nav a:hover::after, nav a.active::after {
+.nav-links a:hover::after, .nav-links a.active::after {
     width: 100%;
 }
 
@@ -383,9 +426,15 @@ footer {
         font-size: 3rem;
     }
     nav {
-        flex-wrap: wrap;
+        flex-direction: column;
+        align-items: center;
         padding: 1rem;
         gap: 1rem;
+    }
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.2rem;
     }
     .card {
         padding: 2rem;
@@ -407,11 +456,17 @@ body.light-mode nav {
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
 }
 
-body.light-mode nav a {
+body.light-mode .logo-text {
+    background: linear-gradient(to right, #1d4ed8, #7e22ce);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+body.light-mode .nav-links a {
     color: var(--text-primary);
 }
 
-body.light-mode nav a:hover, body.light-mode nav a.active {
+body.light-mode .nav-links a:hover, body.light-mode .nav-links a.active {
     color: var(--accent-primary);
 }
 

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hemant Verma | Contact</title>
-    <link rel="icon" type="image/jpeg" href="myself.jpeg">
+    <link rel="icon" type="image/png" href="logo.png">
     <!-- Modern Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
@@ -18,14 +18,22 @@
 </script>
 
 <nav>
-    <a href="index.html">About</a>
-    <a href="skills.html">Skills</a>
-    <a href="projects.html">Projects</a>
-    <a href="certifications.html">Certifications</a>
-    <a href="dashboard.html">Dashboard</a>
-    <a href="resume.html">Resume</a>
-    <a href="contact.html" class="active">Contact</a>
-    <button id="themeToggleBtn" onclick="toggleTheme()" style="background: none; border: none; font-size: 1.3rem; cursor: pointer; color: inherit; margin-left: 1rem; transition: transform 0.3s;">🌓</button>
+    <div class="nav-brand">
+        <a href="index.html" class="logo-link">
+            <img src="logo.png" alt="HV Logo" class="nav-logo">
+            <span class="logo-text">Hemant Verma</span>
+        </a>
+    </div>
+    <div class="nav-links">
+        <a href="index.html">About</a>
+        <a href="skills.html">Skills</a>
+        <a href="projects.html">Projects</a>
+        <a href="certifications.html">Certifications</a>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="resume.html">Resume</a>
+        <a href="contact.html" class="active">Contact</a>
+        <button id="themeToggleBtn" onclick="toggleTheme()" style="background: none; border: none; font-size: 1.3rem; cursor: pointer; color: inherit; margin-left: 1rem; transition: transform 0.3s;">🌓</button>
+    </div>
 </nav>
 
 <section id="contact">
