@@ -81,6 +81,7 @@ nav {
     font-weight: 800;
     background: linear-gradient(135deg, #60a5fa 0%, #c084fc 100%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     letter-spacing: -0.5px;
 }
@@ -152,6 +153,7 @@ header h1 {
     margin-bottom: 1.5rem;
     background: linear-gradient(to right, #60a5fa, #c084fc);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     line-height: 1.2;
     animation: fadeInDown 1s ease-out;
@@ -459,6 +461,7 @@ body.light-mode nav {
 body.light-mode .logo-text {
     background: linear-gradient(to right, #1d4ed8, #7e22ce);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -478,6 +481,7 @@ body.light-mode .card {
 body.light-mode header h1 {
     background: linear-gradient(to right, #1d4ed8, #7e22ce);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
