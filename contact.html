@@ -9,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
-</head>
 <body class="no-scroll">
 <script>
     if (localStorage.getItem('theme') === 'light') {
@@ -36,30 +35,52 @@
     </div>
 </nav>
 
-<section id="contact">
-    <div class="card" style="margin-top: 4rem;">
-        <h2 class="section-title">Contact Me</h2>
-        <div class="contact-details">
-            <a href="mailto:hemantverma5733@gmail.com" class="contact-item" style="text-decoration: none; margin-bottom: 2rem;">
-                <span>✉</span> hemantverma5733@gmail.com
-            </a>
-            
-            <form id="contactForm" class="contact-form">
-                <div class="form-group">
-                    <input type="text" id="name" name="name" placeholder="Your Name" required>
-                </div>
-                <div class="form-group">
-                    <input type="email" id="email" name="email" placeholder="Your Email" required>
-                </div>
-                <div class="form-group">
-                    <textarea id="message" name="message" placeholder="Your Message" rows="5" required></textarea>
-                </div>
-                <button type="submit" class="submit-btn" id="submitBtn">Send Message</button>
-                <div id="formStatus" class="form-status"></div>
-            </form>
-        </div>
+<section id="contact" style="padding-top: 6rem;">
+    <div class="card reveal" style="max-width: 600px; margin: 0 auto;">
+        <h2 class="section-title">Get in Touch</h2>
+        <p style="text-align: center; color: var(--text-secondary); margin-bottom: 2.5rem;">Have a question or want to work together? Drop me a message below. or write directly to <a href="mailto:hemantverma5733@gmail.com" style="color: var(--accent-primary); text-decoration: none;">hemantverma5733@gmail.com</a></p>
+        
+        <form id="contactForm" class="contact-form" style="display: flex; flex-direction: column; gap: 1.5rem;">
+            <div class="form-group">
+                <input type="text" id="name" name="name" placeholder="Your Name" required>
+            </div>
+            <div class="form-group">
+                <input type="email" id="email" name="email" placeholder="Your Email" required>
+            </div>
+            <div class="form-group">
+                <textarea id="message" name="message" placeholder="Your Message" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="submit-btn" id="submitBtn" style="width: 100%;">Send Message ✉️</button>
+            <div id="formStatus" class="form-status"></div>
+        </form>
     </div>
 </section>
+
+<footer>
+    <div class="footer-content">
+        <div>
+            <a href="index.html" class="footer-logo">
+                <img src="logo.png" alt="HV Logo" class="nav-logo">
+                <span class="logo-text">Hemant Verma</span>
+            </a>
+            <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-secondary); max-width: 320px;">Building modern web experiences and exploring machine learning landscapes.</p>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 1rem;">
+            <div class="footer-links">
+                <a href="index.html">About</a>
+                <a href="skills.html">Skills</a>
+                <a href="projects.html">Projects</a>
+                <a href="certifications.html">Certifications</a>
+                <a href="resume.html">Resume</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <p class="footer-text">© 2026 Hemant Verma. All rights reserved.</p>
+            <div>
+                <a href="admin.html" style="color: #60a5fa; text-decoration: none; font-size: 0.9rem; padding: 0.5rem 1rem; border: 1px solid rgba(96, 165, 250, 0.3); border-radius: 20px; transition: 0.3s;" onmouseover="this.style.background='rgba(96, 165, 250, 0.1)'" onmouseout="this.style.background='transparent'">Admin Inbox ✉️</a>
+            </div>
+        </div>
+    </div>
+</footer>
 
 <script>
     document.getElementById('contactForm').addEventListener('submit', async function(e) {
@@ -79,7 +100,7 @@
         statusDiv.className = 'form-status';
         
         try {
-            const response = await fetch('http://localhost:3000/api/contact', {
+            const response = await fetch('/api/contact', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -87,7 +108,6 @@
                 body: JSON.stringify({ name, email, message })
             });
 
-            
             const data = await response.json();
             
             if (response.ok) {
@@ -105,7 +125,7 @@
             console.error('Error:', error);
         } finally {
             submitBtn.disabled = false;
-            submitBtn.textContent = 'Send Message';
+            submitBtn.textContent = 'Send Message ✉️';
         }
     });
 
@@ -116,13 +136,26 @@
         localStorage.setItem('theme', isLight ? 'light' : 'dark');
         
         const btn = document.getElementById('themeToggleBtn');
-        btn.style.transform = isLight ? 'rotate(180deg)' : 'rotate(0deg)';
+        if (btn) {
+            btn.style.transform = isLight ? 'rotate(180deg)' : 'rotate(0deg)';
+        }
     }
+
+    // Add scroll reveal observer
+    document.addEventListener("DOMContentLoaded", () => {
+        const scrollObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(item => {
+            scrollObserver.observe(item);
+        });
+    });
 </script>
-
-<footer>
-    <p>© 2026 Hemant Verma. All rights reserved.</p>
-</footer>
-
 </body>
 </html>

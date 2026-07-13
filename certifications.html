@@ -11,22 +11,26 @@
     <style>
         .cert-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
-            margin-top: 2rem;
+            margin-top: 3rem;
         }
 
         .cert-card {
-            background: rgba(255, 255, 255, 0.02);
+            background: rgba(255, 255, 255, 0.01);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 2rem;
+            border-radius: 24px;
+            padding: 2.5rem;
             text-align: left;
-            transition: all 0.4s ease;
+            transition: var(--transition-bounce);
             position: relative;
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            gap: 1rem;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
         }
 
         .cert-card::before {
@@ -43,10 +47,10 @@
         }
 
         .cert-card:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.05);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            border-color: rgba(255, 255, 255, 0.1);
+            transform: translateY(-8px);
+            background: rgba(59, 130, 246, 0.02);
+            border-color: rgba(59, 130, 246, 0.2);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.12);
         }
 
         .cert-card:hover::before {
@@ -55,21 +59,36 @@
 
         .cert-icon {
             font-size: 2.5rem;
-            margin-bottom: 1rem;
+            background: rgba(255, 255, 255, 0.02);
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: var(--transition-smooth);
+        }
+
+        .cert-card:hover .cert-icon {
+            transform: scale(1.1) rotate(5deg);
+            background: rgba(59, 130, 246, 0.08);
+            border-color: rgba(59, 130, 246, 0.25);
+            color: #60a5fa;
         }
 
         .cert-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 0.5rem;
+            font-family: var(--font-heading);
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: white;
+            letter-spacing: -0.5px;
         }
 
         .cert-issuer {
             color: var(--accent-primary);
             font-size: 0.95rem;
             font-weight: 600;
-            margin-bottom: 1rem;
         }
 
         .cert-date {
@@ -77,7 +96,30 @@
             font-size: 0.85rem;
             margin-top: auto;
             padding-top: 1rem;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            width: 100%;
+        }
+
+        /* Light Mode cert overrides */
+        body.light-mode .cert-card {
+            background: rgba(255, 255, 255, 0.8);
+            border-color: rgba(0, 0, 0, 0.06);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+        }
+
+        body.light-mode .cert-card:hover {
+            background: #ffffff;
+            border-color: rgba(59, 130, 246, 0.2);
+            box-shadow: 0 20px 40px rgba(59, 130, 246, 0.06);
+        }
+
+        body.light-mode .cert-icon {
+            background: rgba(0, 0, 0, 0.02);
+            border-color: rgba(0, 0, 0, 0.05);
+        }
+
+        body.light-mode .cert-title {
+            color: #0f172a;
         }
     </style>
 </head>
@@ -121,11 +163,25 @@
 </nav>
 
 <section id="certifications">
-    <div class="card" style="margin-top: 4rem;">
+    <div class="card reveal" style="margin-top: 4rem;">
         <h2 class="section-title">My Certifications</h2>
-        <p style="margin-bottom: 3rem;">Professional certifications and courses I have completed.</p>
+        <p style="margin-bottom: 3rem; text-align: center; color: var(--text-secondary);">Professional certifications and courses I have completed.</p>
         
         <div class="cert-grid">
+            <div class="cert-card">
+                <div class="cert-icon">🤖</div>
+                <div class="cert-title">AI & Machine Learning Internship</div>
+                <div class="cert-issuer">CodeSpazio Solutions Pvt. Ltd.</div>
+                <div class="cert-date">45-Day Program · Completed</div>
+            </div>
+
+            <div class="cert-card">
+                <div class="cert-icon">🐍</div>
+                <div class="cert-title">Python Development Internship</div>
+                <div class="cert-issuer">Infotact Solutions</div>
+                <div class="cert-date">2-Month Program · Completed</div>
+            </div>
+
             <div class="cert-card">
                 <div class="cert-icon">💻</div>
                 <div class="cert-title">Programming in C</div>
@@ -158,8 +214,46 @@
 </section>
 
 <footer>
-    <p>© 2026 Hemant Verma. All rights reserved.</p>
+    <div class="footer-content">
+        <div>
+            <a href="index.html" class="footer-logo">
+                <img src="logo.png" alt="HV Logo" class="nav-logo">
+                <span class="logo-text">Hemant Verma</span>
+            </a>
+            <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-secondary); max-width: 320px;">Building modern web experiences and exploring machine learning landscapes.</p>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 1rem;">
+            <div class="footer-links">
+                <a href="index.html">About</a>
+                <a href="skills.html">Skills</a>
+                <a href="projects.html">Projects</a>
+                <a href="certifications.html">Certifications</a>
+                <a href="resume.html">Resume</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <p class="footer-text">© 2026 Hemant Verma. All rights reserved.</p>
+            <div>
+                <a href="admin.html" style="color: #60a5fa; text-decoration: none; font-size: 0.9rem; padding: 0.5rem 1rem; border: 1px solid rgba(96, 165, 250, 0.3); border-radius: 20px; transition: 0.3s;" onmouseover="this.style.background='rgba(96, 165, 250, 0.1)'" onmouseout="this.style.background='transparent'">Admin Inbox ✉️</a>
+            </div>
+        </div>
+    </div>
 </footer>
+<script>
+    // Add scroll reveal observer
+    document.addEventListener("DOMContentLoaded", () => {
+        const scrollObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
 
+        document.querySelectorAll('.reveal').forEach(item => {
+            scrollObserver.observe(item);
+        });
+    });
+</script>
 </body>
 </html>
