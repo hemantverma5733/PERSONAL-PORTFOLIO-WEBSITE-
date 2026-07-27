@@ -715,3 +715,39 @@ body.light-mode .social-btn:hover {
     background: rgba(0, 0, 0, 0.05);
     border-color: rgba(0, 0, 0, 0.1);
 }
+
+/* =========================================================================
+   3D Visual Effects Styling
+   ========================================================================= */
+#3d-bg-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -2;
+    pointer-events: none;
+}
+
+.card, .project-card, .sem-card, .certification-card, .skills-card, .marksheet-card {
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    will-change: transform;
+}
+
+/* Elevate specific subelements inside cards for 3D depth */
+.project-card .project-img,
+.profile-img,
+.marksheet-card .score,
+.skills-card i,
+.certification-card img {
+    transform: translateZ(35px);
+    transition: transform 0.4s ease;
+}
+
+.project-card:hover .project-img,
+.marksheet-card:hover .score,
+.certification-card:hover img {
+    transform: translateZ(50px) scale(1.02);
+}
+

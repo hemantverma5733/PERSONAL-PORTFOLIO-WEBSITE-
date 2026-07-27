@@ -81,9 +81,9 @@ class RequestHandler(SimpleHTTPRequestHandler):
                 self.wfile.write(json.dumps({'error': str(e)}).encode('utf-8'))
             return
 
-        # Redirect root to myself.html
+        # Redirect root to index.html
         if self.path == '/':
-            self.path = '/myself.html'
+            self.path = '/index.html'
         return super().do_GET()
 
     def do_POST(self):

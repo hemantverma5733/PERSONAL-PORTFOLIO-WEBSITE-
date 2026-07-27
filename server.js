@@ -218,7 +218,7 @@ app.post('/api/guestbook', contactLimiter, (req, res) => {
 
 // Serve the HTML file for the root path
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'myself.html'));
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Start the server
